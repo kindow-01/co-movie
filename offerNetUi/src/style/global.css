@@ -1,0 +1,127 @@
+.g_row_and_center {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.g_row_and_center_and_j_center {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+.g_row_and_center_between {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.g_vertical_center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.g_vertical {
+  display: flex;
+  flex-direction: column;
+}
+
+.g_row {
+  display: flex;
+  flex-direction: column;
+}
+
+.g_padding_20 {
+  padding: 0.2rem;
+}
+
+.g-categoryTagDiv {
+  display: flex;
+  flex-direction: row;
+}
+
+.g-categoryTagDiv-item {
+  cursor: pointer;
+  background-color: #6262629e;
+  color: #cacaca;
+  width: 2rem;
+  height: 0.5rem;
+  border-radius: 30px;
+  text-align: center;
+  line-height: 0.5rem;
+  margin: 0.2rem 0.2rem 0.2rem 0;
+}
+
+.g-categoryTagDiv-item:hover {
+  color: #ffffff;
+}
+
+.rightView {
+  position: relative;
+  /* left: 3rem; */
+  width: 16rem;
+  /* top: 4.2rem; */
+  padding-left: 3rem;
+  padding-top: 4.2rem;
+  min-height: 100vh;
+}
+
+.rightViewUnTop1 {
+  position: relative;
+  padding-left: 3rem;
+  width: 16rem;
+  padding-top: 1rem;
+  min-height: 100vh;
+}
+
+.player {
+  position: relative;
+  background: #000000;
+}
+
+.g-avatar {
+  border-radius: 50%;
+  overflow: hidden;
+  width: 0.4rem;
+  height: 0.4rem;
+}
+
+.g-textHoverColor {
+  color: #b0b0b0;
+}
+
+.g-textHoverColor:hover {
+  color: #ffffff;
+}
+
+
+::-webkit-scrollbar {
+  /*滚动条整体样式*/
+  width: 5px;
+  /*高宽分别对应横竖滚动条的尺寸*/
+  height: 5px;
+  scrollbar-arrow-color: red;
+}
+
+::-webkit-scrollbar-thumb {
+  /*滚动条里面小方块*/
+  border-radius: 5px;
+  -webkit-box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
+  background: rgba(172, 172, 172, 0.945);
+  scrollbar-arrow-color: red;
+}
+
+::-webkit-scrollbar-track {
+  /*滚动条里面轨道*/
+  -webkit-box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.3);
+  border-radius: 0;
+  background: rgba(0, 0, 0, 0);
+}
+
+.main {
+  width: 100%;
+  background-color: #000000;
+}
