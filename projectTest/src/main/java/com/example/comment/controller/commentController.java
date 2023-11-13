@@ -5,10 +5,11 @@ import com.example.comment.vo.addcommentVO;
 import com.example.movie.service.IVideoService;
 import com.example.user.service.IUserService;
 import com.example.user.vo.Result;
-import jakarta.annotation.Resource;
-import jakarta.servlet.http.HttpServletRequest;
+
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Map;
