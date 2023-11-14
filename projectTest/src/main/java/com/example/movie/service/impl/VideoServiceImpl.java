@@ -6,13 +6,14 @@ import com.example.movie.entity.videoList;
 import com.example.comment.mapper.VideoCommentMapper;
 import com.example.movie.service.IVideoService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.Date;
 
 import com.example.movie.mapper.videoListMapper;
+
+import javax.annotation.Resource;
 
 /**
  * <p>

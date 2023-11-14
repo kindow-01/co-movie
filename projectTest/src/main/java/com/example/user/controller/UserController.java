@@ -5,11 +5,12 @@ import com.example.user.entity.User;
 import com.example.user.mapper.UserMapper;
 import com.example.user.service.IUserService;
 import com.example.user.vo.Result;
-import jakarta.annotation.Resource;
-import jakarta.servlet.http.HttpServletRequest;
+
 import org.springframework.http.HttpRequest;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import javax.swing.plaf.PanelUI;
 
 import java.util.Map;

@@ -9,11 +9,14 @@ import com.example.movie.service.IVideoService;
 import com.example.user.mapper.UserMapper;
 import com.example.user.service.IUserService;
 import com.example.user.vo.Result;
+
 import freemarker.template.utility.DateUtil;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
