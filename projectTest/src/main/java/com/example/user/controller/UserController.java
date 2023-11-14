@@ -4,8 +4,10 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.example.user.entity.User;
 import com.example.user.mapper.UserMapper;
 import com.example.user.service.IUserService;
+import com.example.user.support.UserSupport;
 import com.example.user.vo.Result;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpRequest;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,20 +32,25 @@ import static com.example.user.vo.Result.success;
 @RequestMapping("/api/user")
 @CrossOrigin
 public class UserController {
+
+    @Autowired
+    public UserSupport userSupport;
+
+    //获取当前请求用户的ID,暂时测试
+    @GetMapping("/id")
+    public Long getCurrantUserID() {
+        return userSupport.getCurrentUserId();
+    }
+
     @Resource
      private IUserService iUserService;
 
     //用户登录
      @PostMapping("/login")
-    public Result<Object> login( User user){
+    public Result<String> login(@RequestBody User user){
          System.out.println(user);
-         Map<String, Object> map = iUserService.login(user);
-//         System.out.println(map);
-         if (map != null){
-            return success(map);
-         }else{
-           return fail("账号或密码错误");
-         }
+         String token = iUserService.login(user);
+         return  Result.success(token);
      }
 
 //     用户注册
@@ -89,5 +96,6 @@ public class UserController {
         }else{
             return fail();
         }
+
     }
 }
