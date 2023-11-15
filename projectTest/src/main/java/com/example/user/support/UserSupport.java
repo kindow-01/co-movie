@@ -17,7 +17,9 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 public class UserSupport {
     public Long getCurrentUserId() {
         ServletRequestAttributes requestAttributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+
         String token = requestAttributes.getRequest().getHeader("X-Access-Token");
+
         Long userId = TokenUtil.verifyToken(token);
         if(userId < 0){
             throw new ConditionException("非法用户");
