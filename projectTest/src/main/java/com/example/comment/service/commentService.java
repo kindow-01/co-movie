@@ -11,4 +11,5 @@ public interface commentService {
     int addComment(comment comment);
     List<comment> getCommentList(int setid);
     void deleteById(int id);
+    List<comment> getPage(int setid,int pageno,int pagesize);
 }
