@@ -1,22 +1,14 @@
 package com.example.comment.controller;
 
 import com.example.comment.entity.comment;
-import com.example.comment.entity.returnComment;
 import com.example.comment.service.commentService;
-import com.example.comment.vo.CommentList;
-import com.example.comment.vo.addcommentVO;
-import com.example.movie.service.IVideoService;
 import com.example.user.mapper.UserMapper;
 import com.example.user.service.IUserService;
 import com.example.user.vo.Result;
-
-import freemarker.template.utility.DateUtil;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.web.bind.annotation.*;
 
-import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -34,7 +26,8 @@ public class commentController {
     private commentService commentService;
     @Resource
     private UserMapper userMapper;
-    @PostMapping("/add")
+
+    @PostMapping
     public Result<Object> addComment(HttpServletRequest request, @RequestBody comment comment) {
         String accessToken = request.getHeader("X-Access-Token");
         String[] split = accessToken.split(":");
@@ -48,13 +41,38 @@ public class commentController {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
         comment.setTime(simpleDateFormat.format(date));
         int i = commentService.addComment(comment);
-        if (i == 0){
+        if (i == 0) {
             return fail("评论失败");
         }
         return success();
     }
-    @GetMapping("/list")
-        public Result<Object> getCommentList(int setid){
+
+    @GetMapping("/foreign/{setid}")
+    public Result<Object> getCommentList(@PathVariable int setid) {
+        List<comment> list = findByForeign(setid);
+        if (list.isEmpty()) {
+            return fail("获取资源失败");
+        }
+        return success(list);
+    }
+
+    @DeleteMapping("{/id}")
+    public Result<Object> delete(@PathVariable int id) {
+        commentService.deleteById(id);
+        return success();
+    }
+    @GetMapping("/page")
+    public Result<?> findPage(@RequestParam(required = false, defaultValue = "") int setid,
+                              @RequestParam(required = false, defaultValue = "1") int pageNum,
+                              @RequestParam(required = false, defaultValue = "10") int pageSize) {
+        List<comment> list = commentService.getPage(setid, pageNum, pageSize);
+        if (list.isEmpty()){
+            return fail("获取资源失败");
+        }
+         return success(list);
+    }
+
+    private List<comment> findByForeign(int setid) {
         List<comment> list = commentService.getCommentList(setid);
         for (comment comment : list) {
             String avatar = userMapper.getAvatar(comment.getUsername());
@@ -65,18 +83,15 @@ public class commentController {
             }
             int parentId = comment.getParentId();
             for (com.example.comment.entity.comment c : list) {
-                if (c.getId() == parentId){
+                if (c.getId() == parentId) {
                     comment.setParentComment(c);
                     break;
                 }
             }
-
         }
-        return success(list);
+        return list;
     }
-    @DeleteMapping("{/id}")
-    public Result<Object> delete(@PathVariable int id){
-        commentService.deleteById(id);
-        return success();
-    }
-    }
+
+}
+
+
