@@ -56,7 +56,7 @@ public class commentController {
         return success(list);
     }
 
-    @DeleteMapping("{/id}")
+    @DeleteMapping("/{id}")
     public Result<Object> delete(@PathVariable int id) {
         commentService.deleteById(id);
         return success();
