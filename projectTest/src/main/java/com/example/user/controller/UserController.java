@@ -47,10 +47,11 @@ public class UserController {
 
     //用户登录
      @PostMapping("/login")
-    public Result<String> login(@RequestBody User user){
-         System.out.println(user);
+
+    public Result<String> login(User user){
          String token = iUserService.login(user);
          return  Result.success(token);
+
      }
 
 //     用户注册
@@ -68,29 +69,23 @@ public class UserController {
         }
     }
     @GetMapping("/getUserInfoById")
-    public Result<Object> getUserInfo(HttpServletRequest request){
-        String accessToken = request.getHeader("X-Access-Token");
-        String[] split = accessToken.split(":");
-        String str = split[1].replace("\"", "");
-        String str1 = str.replaceAll("\"", "");
-        String token = str1.replaceAll("}", "");
-        System.out.println(token);
-        Map<String, Object> map = iUserService.getUserInfo(token);
+    public Result<Object> getUserInfo(){
+        //String accessToken = request.getHeader("X-Access-Token");
+        Long id = userSupport.getCurrentUserId();
+        Map<String, Object> map = iUserService.getUserInfo(id);
+        System.out.println("hello"+map);
         if (map != null){
             return success(map);
         }else{
             return fail("登录信息失效");
         }
+
     }
     @PostMapping("/update")
-    public Result<Object> updateUser(@RequestBody User user,HttpServletRequest request){
-        System.out.println("update");
-        String accessToken = request.getHeader("X-Access-Token");
-        String[] split = accessToken.split(":");
-        String str = split[1].replace("\"", "");
-        String str1 = str.replaceAll("\"", "");
-        String token = str1.replaceAll("}", "");
-        Map<String, Object> map = iUserService.getUserInfo(token);
+    public Result<Object> updateUser(@RequestBody User user){
+        Long id = userSupport.getCurrentUserId();
+        Map<String, Object> map = iUserService.getUserInfo(id);
+
         if (map.get("username") == user.getUserName()){
             return success();
         }else{

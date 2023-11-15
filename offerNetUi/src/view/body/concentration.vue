@@ -6,10 +6,9 @@
 
     <div>
       <div class="player">
-        <!-- <coverVideo :coverVideoUrl="coverVideoUrl"></coverVideo> -->
-
         <div class="rightView">
-          <recommend @checkedUrl="checkedUrl" :recommendList="recommendList"> </recommend>
+          <recommend @checkedUrl="checkedUrl" :recommendList="recommendList">
+          </recommend>
           <div class="videoList">
             <div class="">
               <div class="hotTitle">今日热门</div>
@@ -24,7 +23,10 @@
             <div class="">
               <div class="hotTitle">为您推荐</div>
               <div class="videoList">
-                <videos3 @chasingDramaAddOrDelOk="chasingDramaAddOrDelOk" :videoList="recommendVideoList"></videos3>
+                <videos3
+                  @chasingDramaAddOrDelOk="chasingDramaAddOrDelOk"
+                  :videoList="recommendVideoList"
+                ></videos3>
               </div>
             </div>
           </div>
@@ -35,14 +37,14 @@
 </template>
 
 <script>
-import coverVideo from "../../components/coverVideo.vue";
-import topBar from "../../components/topBar/topBar.vue";
-import leftBar from "../../components/leftBar/leftBar.vue";
-import recommend from "../../components/recommend.vue";
-import videos3 from "../../components/videos3.vue";
-import videos4 from "../../components/videos4.vue";
-import { barS } from "../../util/manuConstants";
-import api from "../../util/api";
+import coverVideo from '../../components/coverVideo.vue'
+import topBar from '../../components/topBar/topBar.vue'
+import leftBar from '../../components/leftBar/leftBar.vue'
+import recommend from '../../components/recommend.vue'
+import videos3 from '../../components/videos3.vue'
+import videos4 from '../../components/videos4.vue'
+import { barS } from '../../util/manuConstants'
+import api from '../../util/api'
 import { mapGetters, mapActions } from 'vuex'
 export default {
   components: {
@@ -54,16 +56,14 @@ export default {
     videos4,
     coverVideo
   },
-  name: "concentration",
+  name: 'concentration',
   data() {
     return {
       barName: barS.CONCENTRATION,
       hostList: [],
       coverVideoUrl: 'd=17&ext=.mp4',
       hostListByWeek: [],
-      recommendList: [
-
-      ],
+      recommendList: [],
       recommendVideoSearchData: {
         pageNo: 1,
         pageSize: 10,
@@ -72,18 +72,19 @@ export default {
       },
       recommendVideoLoding: false,
       recommendVideoList: []
-    };
+    }
   },
   created() {
-    this.initHostList();
-    this.initHostListByWeek();
-    this.recommend();
-    this.recommendVideo();
+    this.initHostList()
+    this.initHostListByWeek()
+    this.recommend()
+    this.recommendVideo()
   },
   methods: {
     //追剧接口请求完毕回调
     chasingDramaAddOrDelOk(index) {
-      this.recommendVideoList[index].chasingDrama = !this.recommendVideoList[index].chasingDrama;
+      this.recommendVideoList[index].chasingDrama =
+        !this.recommendVideoList[index].chasingDrama
     },
     //推荐卡片
     recommend() {
@@ -93,38 +94,38 @@ export default {
       }
       api.videoSetAll(param).then((res) => {
         if (res.code == 200) {
-          this.recommendList = res.data;
+          this.recommendList = res.data
           // this.recommendList=[]
         }
-      });
+      })
     },
     //推荐视频
     recommendVideo() {
-      this.recommendVideoLoding = true;
+      this.recommendVideoLoding = true
       if (this.user && this.user.id) {
         api.recommendAuth(this.recommendVideoSearchData).then((res) => {
           if (res.code == 200) {
-            this.recommendVideoList = this.recommendVideoList.concat(res.data);
+            this.recommendVideoList = this.recommendVideoList.concat(res.data)
           }
           if (res.data.length < 1) {
-            this.recommendVideoSearchData.pageNo--;
+            this.recommendVideoSearchData.pageNo--
           }
-          this.recommendVideoLoding = false;
-        });
+          this.recommendVideoLoding = false
+        })
       } else {
         api.recommend(this.recommendVideoSearchData).then((res) => {
           if (res.code == 200) {
-            this.recommendVideoList = this.recommendVideoList.concat(res.data);
+            this.recommendVideoList = this.recommendVideoList.concat(res.data)
           }
           if (res.data.length < 1) {
-            this.recommendVideoSearchData.pageNo--;
+            this.recommendVideoSearchData.pageNo--
           }
-          this.recommendVideoLoding = false;
-        });
+          this.recommendVideoLoding = false
+        })
       }
     },
     checkedUrl(url) {
-      this.coverVideoUrl = url;
+      this.coverVideoUrl = url
     },
     //今日热门
     initHostList() {
@@ -134,10 +135,10 @@ export default {
       }
       api.videoSetHostList(param).then((res) => {
         if (res.code == 200) {
-          this.hostList = res.data;
+          this.hostList = res.data
           // this.hostList=[]
         }
-      });
+      })
     },
     //重磅热播
     initHostListByWeek() {
@@ -147,67 +148,64 @@ export default {
       }
       api.videoSetHostListByWeek(param).then((res) => {
         if (res.code == 200) {
-          this.hostListByWeek = res.data;
+          this.hostListByWeek = res.data
           // this.hostList=[]
         }
-      });
+      })
     },
     scrollBottom() {
       // 变量scrollTop为当前页面的滚动条纵坐标位置
       let scrollTop =
-        document.documentElement.scrollTop || document.body.scrollTop;
+        document.documentElement.scrollTop || document.body.scrollTop
       // 变量 windowHeight 是可视区的高度
       let windowHeight =
-        document.documentElement.clientHeight || document.body.clientHeight;
+        document.documentElement.clientHeight || document.body.clientHeight
       // 变量 scrollHeight 是滚动条的总高度
       let scrollHeight =
-        document.documentElement.scrollHeight || document.body.scrollHeight;
+        document.documentElement.scrollHeight || document.body.scrollHeight
       //如果向下滚动超过过100 则给头部导航换个颜色
       if (scrollTop >= 100) {
-        this.$store.dispatch('setTopBarBackground', 'rgba(45, 45, 45, 0.826)');
-      }else{
-        this.$store.dispatch('setTopBarBackground', '');
+        this.$store.dispatch('setTopBarBackground', 'rgba(45, 45, 45, 0.826)')
+      } else {
+        this.$store.dispatch('setTopBarBackground', '')
       }
       // 到底的条件
       if (scrollTop + windowHeight + 1 >= scrollHeight) {
-
-        const THROTTLE_TIME = 300; // 定义节流间隔时间
+        const THROTTLE_TIME = 300 // 定义节流间隔时间
         if (this.timer) {
-          clearTimeout(this.timer); // 取消掉已有的节流定时器
+          clearTimeout(this.timer) // 取消掉已有的节流定时器
         }
 
         this.timer = setTimeout(() => {
           if (this.recommendVideoLoding) return //控制节流
-          this.recommendVideoSearchData.pageNo = this.recommendVideoSearchData.pageNo + 1;
-          this.recommendVideo();
-        }, THROTTLE_TIME);
+          this.recommendVideoSearchData.pageNo =
+            this.recommendVideoSearchData.pageNo + 1
+          this.recommendVideo()
+        }, THROTTLE_TIME)
       }
-    },
-
+    }
   },
   mounted() {
     window.addEventListener('scroll', this.scrollBottom)
   },
   computed: {
-    ...mapGetters([
-      'user'
-    ])
+    ...mapGetters(['user'])
   },
   //页面销毁前解除监听
   beforeDestroy() {
     window.removeEventListener('scroll', this.scrollBottom)
   },
   watch: {
-    'user'(newValue, oldValue) {
-      this.recommendVideoSearchData.pageNo = 1;
-      this.recommendVideoSearchData.pageSize = 10;
-      this.recommendVideoList = [];
-      this.recommendVideo();
+    user(newValue, oldValue) {
+      this.recommendVideoSearchData.pageNo = 1
+      this.recommendVideoSearchData.pageSize = 10
+      this.recommendVideoList = []
+      this.recommendVideo()
     }
   }
-};
+}
 </script>
- 
+
 
 <style lang="scss" scoped >
 .videoDiv {
@@ -229,7 +227,6 @@ export default {
 .videoList {
   z-index: 9999999;
   width: 16rem;
-
 }
 
 .hotTitle {

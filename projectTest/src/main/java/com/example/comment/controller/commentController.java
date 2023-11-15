@@ -24,6 +24,7 @@ public class commentController {
     private IUserService iUserService;
     @Resource
     private commentService commentService;
+
     @Resource
     private UserMapper userMapper;
 

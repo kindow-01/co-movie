@@ -2,30 +2,62 @@
   <div class="box" v-if="show">
     <div class="headerDiv">
       <div class="boxTitle">账号登陆</div>
-      <div class="closeBox" @click="close"><span class="iconfont iconfont-guanbi"
-          style="font-size: 0.3rem !important;"></span></div>
+      <div class="closeBox" @click="close">
+        <span
+          class="iconfont iconfont-guanbi"
+          style="font-size: 0.3rem !important"
+        ></span>
+      </div>
     </div>
     <div class="bodyDiv">
       <div class="form">
         <div class="loginBox" v-if="titleTag == '密码登录'">
-          <div style="margin: 0.2rem;color: black;width: 4rem;text-align: center;">密码登陆</div>
+          <div
+            style="
+              margin: 0.2rem;
+              color: black;
+              width: 4rem;
+              text-align: center;
+            "
+          >
+            密码登陆
+          </div>
           <div>
             <input class="input" v-model="userName" placeholder="手机号" />
           </div>
           <div>
-            <input class="input" type="password" v-model="password" placeholder="输入密码" />
+            <input
+              class="input"
+              type="password"
+              v-model="password"
+              placeholder="输入密码"
+            />
           </div>
           <div>
             <button class="button" @click="login">登陆</button>
           </div>
         </div>
         <div class="registerBox" v-if="titleTag == '注册账号'">
-          <div style="margin: 0.2rem;color: black;width: 4rem;text-align: center;">注册</div>
+          <div
+            style="
+              margin: 0.2rem;
+              color: black;
+              width: 4rem;
+              text-align: center;
+            "
+          >
+            注册
+          </div>
           <div>
             <input class="input" v-model="userName" placeholder="手机号" />
           </div>
           <div>
-            <input class="input" type="password" v-model="password" placeholder="输入密码" />
+            <input
+              class="input"
+              type="password"
+              v-model="password"
+              placeholder="输入密码"
+            />
           </div>
           <!-- <div style="position: relative;">
             <input class="input" v-model="code" placeholder="输入短信验证码" />
@@ -38,152 +70,150 @@
           </div>
         </div>
         <div class="action">
-          <div @click="changeTab('密码登录')" v-if="titleTag != '密码登录'">密码登录</div>
-          <div @click="changeTab('找回密码')" v-if="titleTag != '找回密码'">找回密码</div>
-          <div @click="changeTab('注册账号')" v-if="titleTag != '注册账号'">注册账号</div>
-          <div @click="changeTab('意见反馈')" v-if="titleTag != '意见反馈'">意见反馈</div>
+          <div @click="changeTab('密码登录')" v-if="titleTag != '密码登录'">
+            密码登录
+          </div>
+          <div @click="changeTab('找回密码')" v-if="titleTag != '找回密码'">
+            找回密码
+          </div>
+          <div @click="changeTab('注册账号')" v-if="titleTag != '注册账号'">
+            注册账号
+          </div>
+          <div @click="changeTab('意见反馈')" v-if="titleTag != '意见反馈'">
+            意见反馈
+          </div>
         </div>
       </div>
-
     </div>
   </div>
 </template>
 
 <script>
-import {
-  ACCESS_TOKEN,
-  USER_NAME,
-  USER_INFO,
-  BASE_URL,
-} from "../util/constants";
-import api from "../util/api";
+import { ACCESS_TOKEN, USER_NAME, USER_INFO, BASE_URL } from '../util/constants'
+import api from '../util/api'
 export default {
   props: {
     show: {
       type: Boolean,
       default: false
-    },
+    }
   },
   components: {
     //用来注册子组件的节点
   },
-  name: "loginBox",
+  name: 'loginBox',
   data() {
     return {
       input: '',
       userName: '',
       password: '',
       titleTag: '密码登录',
-      auth_time: 0,
-    };
+      auth_time: 0
+    }
   },
-  created() { },
+  created() {},
   methods: {
     getCode() {
       if (!this.userName) {
-        this.$message.error("手机号不允许为空");
-        return;
+        this.$message.error('手机号不允许为空')
+        return
       }
-      if (!(/^1[34578]\d{9}$/.test(this.userName))) {
-        this.$message.error("手机号格式有误");
-        return;
+      if (!/^1[34578]\d{9}$/.test(this.userName)) {
+        this.$message.error('手机号格式有误')
+        return
       }
       let param = {
         phone: this.userName
       }
       api.code(param).then((res) => {
         if (res.code == 200) {
+          this.$message.success('模拟您手机收到的验证码为--' + res.result)
 
-          this.$message.success("模拟您手机收到的验证码为--" + res.result)
-
-          this.auth_time = 60;
+          this.auth_time = 60
           var auth_timetimer = setInterval(() => {
-            this.auth_time--;
+            this.auth_time--
             if (this.auth_time <= 0) {
-              clearInterval(auth_timetimer);
+              clearInterval(auth_timetimer)
             }
-          }, 1000);
-
+          }, 1000)
         } else {
-          this.$message.error("发送失败请重新尝试--")
+          this.$message.error('发送失败请重新尝试--')
         }
-      });
+      })
     },
     login() {
-      let that = this;
+      let that = this
       let param = {
         userName: this.userName,
         password: this.password
       }
       api.login(param).then((res) => {
         if (res.code == 200) {
-          window.localStorage.setItem(ACCESS_TOKEN, JSON.stringify(res.data));
-          console.log(res.data);
+          window.localStorage.setItem(ACCESS_TOKEN, res.message)
           this.$notify.success({
             title: '成功',
             message: res.message,
             offset: 50
-          });
-          this.loadUserInfo();
-          that.close();
-        }
-        else{
+          })
+          this.loadUserInfo()
+          that.close()
+        } else {
           this.$notify.error({
             title: '失败',
             message: res.message,
             offset: 50
           })
         }
-      });
+      })
     },
     register() {
       if (!this.userName) {
-        this.$message.error("手机号不允许为空");
-        return;
+        this.$message.error('手机号不允许为空')
+        return
       }
-      if (!(/^1[34578]\d{9}$/.test(this.userName))) {
-        this.$message.error("手机号格式有误");
-        return;
+      if (!/^1[34578]\d{9}$/.test(this.userName)) {
+        this.$message.error('手机号格式有误')
+        return
       }
       // if (!this.code) {
       //   this.$message.error("验证码不允许为空");
       //   return;
       // }
       if (!this.password) {
-        this.$message.error("密码不允许为空");
-        return;
+        this.$message.error('密码不允许为空')
+        return
       }
       let param = {
         userName: this.userName,
-        password: this.password,
+        password: this.password
         // code: this.code
       }
       api.register(param).then((res) => {
         if (res.code == 200) {
-          this.$message.success("注册成功");
-          this.titleTag = '密码登录';
+          this.$message.success('注册成功')
+          this.titleTag = '密码登录'
         } else {
-          this.$message.error(res.message);
+          this.$message.error(res.message)
         }
-      });
+      })
     },
     changeTab(title) {
       if (title == '意见反馈') {
-        this.$message.success('谢谢你的建议！');
-        return;
+        this.$message.success('谢谢你的建议！')
+        return
       }
-      this.titleTag = title;
+      this.titleTag = title
     },
     close() {
-      this.userName = '';
-      this.password = '';
-      this.$emit('close');
+      this.userName = ''
+      this.password = ''
+      this.$emit('close')
     }
   },
-  mounted() { },
-};
+  mounted() {}
+}
 </script>
- 
+
 
 <style scoped>
 .codeBut {
@@ -196,7 +226,7 @@ export default {
   height: 0.4rem;
   border-radius: 0.2rem;
   width: 1.5rem;
-  background-color: #09F;
+  background-color: #09f;
   border: none;
 }
 
@@ -216,7 +246,7 @@ export default {
   background: #f1f1f1;
   height: 0.6rem;
   position: relative;
- }
+}
 
 .boxTitle {
   font-size: 0.23rem;
@@ -240,7 +270,7 @@ export default {
   -webkit-appearance: none !important;
   background-image: none !important;
   border-radius: 10px !important;
-  border: 1px solid #DCDFE6 !important;
+  border: 1px solid #dcdfe6 !important;
   -webkit-box-sizing: border-box !important;
   box-sizing: border-box !important;
   color: #000000 !important;
@@ -248,8 +278,8 @@ export default {
   height: 0.5rem !important;
   line-height: 0.5rem !important;
   outline: 0 !important;
-  -webkit-transition: border-color .2s cubic-bezier(.645, .045, .355, 1) !important;
-  transition: border-color .2s cubic-bezier(.645, .045, .355, 1) !important;
+  -webkit-transition: border-color 0.2s cubic-bezier(0.645, 0.045, 0.355, 1) !important;
+  transition: border-color 0.2s cubic-bezier(0.645, 0.045, 0.355, 1) !important;
 }
 
 .button {
@@ -257,7 +287,7 @@ export default {
   font-size: 0.16rem;
   margin: 0.2rem;
   cursor: pointer;
-  background-color: #09F;
+  background-color: #09f;
   width: 4rem;
   height: 0.4rem;
   border-radius: 10px;
@@ -276,7 +306,8 @@ export default {
   justify-content: space-between;
 }
 
-.bodyDiv {}
+.bodyDiv {
+}
 
 .form {
   display: flex;

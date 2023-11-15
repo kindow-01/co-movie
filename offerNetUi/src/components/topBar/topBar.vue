@@ -1,24 +1,39 @@
 <template>
   <div>
-    <div class="manuDiv"
-      :style="topBarBackground && topBarBackground != '' ? 'background:' + topBarBackground + ';' : ''">
-
+    <div
+      class="manuDiv"
+      :style="
+        topBarBackground && topBarBackground != ''
+          ? 'background:' + topBarBackground + ';'
+          : ''
+      "
+    >
       <router-link to="/">
-        <div class="" style="width: 2rem;height: 0.5rem;">
-          <img src="../../assets//logo-long-tm.png" style="object-fit: cover;width: 100%;height: 100%;">
+        <div class="" style="width: 2rem; height: 0.5rem">
+          <img
+            src="../../assets//logo-long-tm.png"
+            style="object-fit: cover; width: 100%; height: 100%"
+          />
         </div>
-
       </router-link>
 
       <!-- <div class="seachDiv g_row_and_center" style="flex:1;">
         <el-input v-model="input" placeholder="请输入内容"> </el-input>
         <i class="el-icon-search searchIcon"></i>
       </div> -->
-      <div class="headerRight" style="flex:1;">
+      <div class="headerRight" style="flex: 1">
         <div class="headerRightItem historyText">
-          <span class="iconfont iconfont-lishixiao g-textHoverColor" @mouseover="historyBoxMouseOver1"
-            @mouseleave="historyBoxMouseLeave1" style="font-size: 0.3rem;"></span>
-          <div class="historyBox" @mouseover="historyBoxMouseOver2" @mouseleave="historyBoxMouseLeave2">
+          <span
+            class="iconfont iconfont-lishixiao g-textHoverColor"
+            @mouseover="historyBoxMouseOver1"
+            @mouseleave="historyBoxMouseLeave1"
+            style="font-size: 0.3rem"
+          ></span>
+          <div
+            class="historyBox"
+            @mouseover="historyBoxMouseOver2"
+            @mouseleave="historyBoxMouseLeave2"
+          >
             <historyBox v-if="historyBoxShow1 || historyBoxShow2"></historyBox>
           </div>
         </div>
@@ -29,44 +44,45 @@
           关于
         </div>
         <div class="headerRightItem g-textHoverColor" @click="goREADME">
-
           项目介绍
-
         </div>
         <div class="headerRightItem g-textHoverColor" @click="goLICENSE">
-
           开源协议
-
         </div>
         <div class="headerRightItem g-textHoverColor" @click="showLoginBox">
-          <img class="g-avatar" :src="user.avatar ? user.avatar : 'https://doc.firstui.cn/img/img_logo.png'">
+          <img
+            class="g-avatar"
+            :src="
+              user.avatar
+                ? user.avatar
+                : 'https://doc.firstui.cn/img/img_logo.png'
+            "
+          />
         </div>
-
       </div>
     </div>
     <loginBox :show="showLoginBoxData" @close="loginBoxClose()"></loginBox>
     <appreciate ref="appreciate"></appreciate>
-
   </div>
 </template>
 
 <script>
-import topBar from "../../components/topBar/topBar.vue";
-import leftBar from "../../components/leftBar/leftBar.vue";
-import recommend from "../../components/recommend.vue";
-import videos3 from "../../components/videos3.vue";
-import videos4 from "../../components/videos4.vue";
-import { barS } from "../../util/manuConstants";
-import historyBox from "../../components/historyBox.vue";
-import loginBox from "../../components/loginBox.vue";
-import appreciate from "../../components/appreciate.vue";
+import topBar from '../../components/topBar/topBar.vue'
+import leftBar from '../../components/leftBar/leftBar.vue'
+import recommend from '../../components/recommend.vue'
+import videos3 from '../../components/videos3.vue'
+import videos4 from '../../components/videos4.vue'
+import { barS } from '../../util/manuConstants'
+import historyBox from '../../components/historyBox.vue'
+import loginBox from '../../components/loginBox.vue'
+import appreciate from '../../components/appreciate.vue'
 
 import {
   ACCESS_TOKEN,
   USER_NAME,
   USER_INFO,
-  BASE_URL,
-} from "../../util/constants";
+  BASE_URL
+} from '../../util/constants'
 import { mapGetters, mapActions } from 'vuex'
 export default {
   components: {
@@ -78,25 +94,21 @@ export default {
     videos4,
     historyBox,
     loginBox,
-    appreciate,
+    appreciate
   },
-  name: "concentration",
+  name: 'concentration',
   data() {
     return {
       userInfo: {},
       scroll: '',
       historyBoxShow1: false,
       historyBoxShow2: false,
-      input: '',
-    };
+      input: ''
+    }
   },
-  created() {
-
-  },
+  created() {},
   computed: {
-    ...mapGetters([
-      'user', 'showLoginBoxData', 'topBarBackground'
-    ])
+    ...mapGetters(['user', 'showLoginBoxData', 'topBarBackground'])
   },
   mounted() {
     // window.addEventListener('storage', this.handleStorageChange)
@@ -105,77 +117,78 @@ export default {
     // }, (newVal, oldVal) => {
     //   // 缓存数据发生变化时的处理逻辑
     //   console.log('localStorage中的user值发生了变化1')
-
     // })
   },
 
   methods: {
     goREADME() {
-      window.open("https://gitee.com/yang-ruyuan/video-system-open/blob/master/README.md")
+      window.open(
+        'https://gitee.com/yang-ruyuan/video-system-open/blob/master/README.md'
+      )
     },
     goLICENSE() {
-      window.open("https://gitee.com/yang-ruyuan/video-system-open/blob/master/LICENSE")
+      window.open(
+        'https://gitee.com/yang-ruyuan/video-system-open/blob/master/LICENSE'
+      )
     },
     showAbout() {
       this.$router.push({
-        path: "/about",
-      });
+        path: '/about'
+      })
     },
     showAppreciate() {
-      this.$refs.appreciate.openModal();
+      this.$refs.appreciate.openModal()
     },
     loginBoxClose() {
-      this.$store.dispatch('setShowLoginBoxData', false);
+      this.$store.dispatch('setShowLoginBoxData', false)
     },
 
-    getAvatar() {
-    },
+    getAvatar() {},
     showLoginBox() {
       if (this.user.id) {
         this.$router.push({
-          path: "/userInfo",
-        });
+          path: '/userInfo'
+        })
       } else {
         this.$store.dispatch('setShowLoginBoxData', true)
       }
     },
     handleScroll() {
       //或者使用document.querySelector('.class或者#id').scrollTop
-      this.scroll = document.documentElement.scrollTop || document.body.scrollTop
+      this.scroll =
+        document.documentElement.scrollTop || document.body.scrollTop
       console.log(this.scroll)
     },
     historyBoxMouseOver1() {
-      console.log("移入了");
-      this.historyBoxShow1 = true;
+      console.log('移入了')
+      this.historyBoxShow1 = true
     },
     historyBoxMouseLeave1() {
-      console.log("移出了");
-      let that = this;
+      console.log('移出了')
+      let that = this
       setTimeout(function () {
-        that.historyBoxShow1 = false;	// 需要执行的代码		
-      }, 300); // 定时时间
-
+        that.historyBoxShow1 = false // 需要执行的代码
+      }, 300) // 定时时间
     },
     historyBoxMouseOver2() {
-      console.log("移入了");
-      this.historyBoxShow2 = true;
+      console.log('移入了')
+      this.historyBoxShow2 = true
     },
     historyBoxMouseLeave2() {
-      console.log("移出了");
-      let that = this;
+      console.log('移出了')
+      let that = this
       setTimeout(function () {
-        that.historyBoxShow2 = false;	// 需要执行的代码		
-      }, 300); // 定时时间
+        that.historyBoxShow2 = false // 需要执行的代码
+      }, 300) // 定时时间
     }
   },
   //销毁,否则跳到别的路由还是会出现
   destroyed() {
     window.removeEventListener('scroll', this.handleScroll)
   }
-
-};
+}
 </script>
- 
+
 <style scoped >
 .manuDiv {
   padding: 0.2rem 0.2rem 0.2rem 0.2rem;
@@ -191,7 +204,7 @@ export default {
 }
 
 .sonLine::after {
-  content: "";
+  content: '';
   display: flex;
   left: 0;
   right: 0;
@@ -227,7 +240,7 @@ export default {
 }
 
 .parentUnderline::after {
-  content: "";
+  content: '';
   height: 1px;
   display: block;
   width: 90%;

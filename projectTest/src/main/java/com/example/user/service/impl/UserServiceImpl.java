@@ -1,8 +1,11 @@
 package com.example.user.service.impl;
 
 import com.alibaba.fastjson2.JSON;
+
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.example.file.commons.exception.ConditionException;
 import com.example.file.utils.TokenUtil;
+
 import com.example.user.entity.User;
 import com.example.user.mapper.UserMapper;
 import com.example.user.service.IUserService;
@@ -36,7 +39,6 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
     @Override
     public String login(User user) {
         User result = userMapper.UserLogin(user);
-        System.out.println(result);
         if (result != null){
             // 生成token,返回前端
             try {
@@ -73,10 +75,10 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
 
 
     @Override
-    public Map<String, Object> getUserInfo(String token) {
-        Object obj = redisTemplate.opsForValue().get(token);
-        if (obj != null){
-            User user = JSON.parseObject(JSON.toJSONString(obj), User.class);
+    public Map<String, Object> getUserInfo(Long id) {
+        QueryWrapper<User> queryWrapper = new QueryWrapper<>();
+        User user = userMapper.selectOne(queryWrapper.eq("id", id));
+        if (user != null){
             HashMap<String, Object> map = new HashMap<>();
             map.put("username",user.getUserName());
             map.put("id",user.getUserName());
