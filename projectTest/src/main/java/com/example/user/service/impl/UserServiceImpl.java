@@ -1,20 +1,22 @@
 package com.example.user.service.impl;
 
 import com.alibaba.fastjson2.JSON;
+import com.example.file.commons.exception.ConditionException;
+import com.example.file.utils.TokenUtil;
 import com.example.user.entity.User;
 import com.example.user.mapper.UserMapper;
 import com.example.user.service.IUserService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 
+import com.example.user.support.UserSupport;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.GetMapping;
 
 import javax.annotation.Resource;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.UUID;
-import java.util.concurrent.TimeUnit;
 
 /**
  * <p>
@@ -32,26 +34,21 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
     private RedisTemplate redisTemplate;
 
     @Override
-    public Map<String, Object> login(User user) {
+    public String login(User user) {
         User result = userMapper.UserLogin(user);
         System.out.println(result);
         if (result != null){
-            //表示登录成功，生成token返回给前端
-            UUID uuid =  UUID.randomUUID();
-            String key="User"+uuid;
-            //存入redis
-
-            //这里可以将密码设置为null再存入redis
-            //user.setPassword(null);
-
-            //设置存活时间为30min
-            redisTemplate.opsForValue().set(key,result,30, TimeUnit.MINUTES);
-            //返回数据
-            HashMap<String, Object> map = new HashMap<>();
-            map.put("token",key);
-            return map;
+            // 生成token,返回前端
+            try {
+                // 根据用户id生成对应的token，这样就能通过token知道是哪个用户发送的请求了
+                String token = TokenUtil.generateToken(Long.valueOf(result.getId()));
+                return token;
+            } catch (Exception e) {
+                throw new ConditionException("token生成失败");
+            }
+            // 不需要使用redis了，token自带时间验证功能，可以点进去看，我设置了一天失效
         }
-        return null;
+       return null;
     }
 
     @Override

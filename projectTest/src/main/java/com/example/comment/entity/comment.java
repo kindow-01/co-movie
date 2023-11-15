@@ -3,36 +3,31 @@ package com.example.comment.entity;
 import java.util.Date;
 
 public class comment {
-    int id;
-    String username;
+    String id;
+    String userName;
     String content;
-    String time;
-    int parentId;
-    comment parentComment;
-    int foreignId;
-
-    String avatar;
+    Date createTime;
+    int videoId;
+    int setId;
 
 
     public comment() {
     }
 
-    public comment(int id, String username, String content, String time, int parentId, comment parentComment, int foreignId, String avatar) {
+    public comment(String id, String userName, String content, Date createTime, int videoId, int setId) {
         this.id = id;
-        this.username = username;
+        this.userName = userName;
         this.content = content;
-        this.time = time;
-        this.parentId = parentId;
-        this.parentComment = parentComment;
-        this.foreignId = foreignId;
-        this.avatar = avatar;
+        this.createTime = createTime;
+        this.videoId = videoId;
+        this.setId = setId;
     }
 
     /**
      * 获取
      * @return id
      */
-    public int getId() {
+    public String getId() {
         return id;
     }
 
@@ -40,24 +35,24 @@ public class comment {
      * 设置
      * @param id
      */
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
     /**
      * 获取
-     * @return username
+     * @return userName
      */
-    public String getUsername() {
-        return username;
+    public String getUserName() {
+        return userName;
     }
 
     /**
      * 设置
-     * @param username
+     * @param userName
      */
-    public void setUsername(String username) {
-        this.username = username;
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
     /**
@@ -78,85 +73,53 @@ public class comment {
 
     /**
      * 获取
-     * @return time
+     * @return createTime
      */
-    public String getTime() {
-        return time;
+    public Date getCreateTime() {
+        return createTime;
     }
 
     /**
      * 设置
-     * @param time
+     * @param createTime
      */
-    public void setTime(String time) {
-        this.time = time;
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
     }
 
     /**
      * 获取
-     * @return parentId
+     * @return videoId
      */
-    public int getParentId() {
-        return parentId;
+    public int getVideoId() {
+        return videoId;
     }
 
     /**
      * 设置
-     * @param parentId
+     * @param videoId
      */
-    public void setParentId(int parentId) {
-        this.parentId = parentId;
+    public void setVideoId(int videoId) {
+        this.videoId = videoId;
     }
 
     /**
      * 获取
-     * @return parentComment
+     * @return setId
      */
-    public comment getParentComment() {
-        return parentComment;
+    public int getSetId() {
+        return setId;
     }
 
     /**
      * 设置
-     * @param parentComment
+     * @param setId
      */
-    public void setParentComment(comment parentComment) {
-        this.parentComment = parentComment;
-    }
-
-    /**
-     * 获取
-     * @return foreignId
-     */
-    public int getForeignId() {
-        return foreignId;
-    }
-
-    /**
-     * 设置
-     * @param foreignId
-     */
-    public void setForeignId(int foreignId) {
-        this.foreignId = foreignId;
-    }
-
-    /**
-     * 获取
-     * @return avatar
-     */
-    public String getAvatar() {
-        return avatar;
-    }
-
-    /**
-     * 设置
-     * @param avatar
-     */
-    public void setAvatar(String avatar) {
-        this.avatar = avatar;
+    public void setSetId(int setId) {
+        this.setId = setId;
     }
 
     public String toString() {
-        return "comment{id = " + id + ", username = " + username + ", content = " + content + ", time = " + time + ", parentId = " + parentId + ", parentComment = " + parentComment + ", foreignId = " + foreignId + ", avatar = " + avatar + "}";
+        return "comment{id = " + id + ", userName = " + userName + ", content = " + content + ", createTime = " + createTime + ", videoId = " + videoId + ", setId = " + setId + "}";
     }
 }

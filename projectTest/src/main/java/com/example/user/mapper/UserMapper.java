@@ -15,7 +15,7 @@ import org.apache.ibatis.annotations.Select;
  * @since 2023-10-24
  */
 public interface UserMapper extends BaseMapper<User> {
-    @Select("select *from cl_user where user_name=#{userName} and password=#{password}")
+    @Select("select * from cl_user where user_name=#{userName} and password=#{password}")
     User UserLogin(User user);
     @Insert("insert into cl_user(user_name,password) values (#{userName},#{password}) ")
     int UserRegister(User user);
