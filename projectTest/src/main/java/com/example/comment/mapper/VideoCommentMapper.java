@@ -24,5 +24,7 @@ public interface VideoCommentMapper extends BaseMapper<Video> {
        int addComment(comment comment);
        @Select("select * from comment where foreignId =#{setid}")
        List<comment> getCommentList(int setid);
+       @Select("select *from comment where foreignId=#{setid} order by id limit #{start},#{end}")
+       List<comment> selectPage(int start,int end,int setid);
 
 }
