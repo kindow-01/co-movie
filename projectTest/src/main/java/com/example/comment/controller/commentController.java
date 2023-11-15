@@ -24,24 +24,24 @@ public class commentController {
     private IUserService iUserService;
     @Resource
     private commentService commentService;
-    @PostMapping("/add")
-    public Result<Object> addComment(HttpServletRequest request, @RequestBody addcommentVO vo) {
-        String accessToken = request.getHeader("X-Access-Token");
-        String[] split = accessToken.split(":");
-        String str = split[1].replace("\"", "");
-        String str1 = str.replaceAll("\"", "");
-        String token = str1.replaceAll("}", "");
-        Map<String, Object> map = iUserService.getUserInfo(token);
-        String userName = (String) map.get("username");
-        System.out.println(userName);
-        SimpleDateFormat formatter= new SimpleDateFormat("yyyy-MM-dd 'at' HH:mm:ss z");
-        Date date = new Date(System.currentTimeMillis());
-        int i = commentService.addComment(Integer.parseInt(vo.getSetId()),Integer.parseInt(vo.getSourceId()), vo.getContent(), userName, date);
-        if (i == 0){
-            return fail("评论失败");
-        }
-        return success();
-    }
+    //@PostMapping("/add")
+    //public Result<Object> addComment(HttpServletRequest request, @RequestBody addcommentVO vo) {
+    //    String accessToken = request.getHeader("X-Access-Token");
+    //    String[] split = accessToken.split(":");
+    //    String str = split[1].replace("\"", "");
+    //    String str1 = str.replaceAll("\"", "");
+    //    String token = str1.replaceAll("}", "");
+    //    Map<String, Object> map = iUserService.getUserInfo(token);
+    //    String userName = (String) map.get("username");
+    //    System.out.println(userName);
+    //    SimpleDateFormat formatter= new SimpleDateFormat("yyyy-MM-dd 'at' HH:mm:ss z");
+    //    Date date = new Date(System.currentTimeMillis());
+    //    int i = commentService.addComment(Integer.parseInt(vo.getSetId()),Integer.parseInt(vo.getSourceId()), vo.getContent(), userName, date);
+    //    if (i == 0){
+    //        return fail("评论失败");
+    //    }
+    //    return success();
+    //}
 
-    }
+}
 

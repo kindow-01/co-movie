@@ -18,6 +18,6 @@ import java.util.Stack;
 public interface IUserService extends IService<User> {
    public Map<String,Object> login(User user);
 
-   public Map<String,Object> getUserInfo(String token);
+   public Map<String,Object> getUserInfo(Long id);
    public Map<String,Integer> register(User user);
 }
